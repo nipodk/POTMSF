@@ -1,0 +1,9 @@
+.page-title {
+  text-align: center;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+}

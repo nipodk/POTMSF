@@ -1,0 +1,29 @@
+<section class="registration-section">
+  <app-header></app-header>
+  <div class="registration-container">
+    <h1>Register</h1>
+  <form [formGroup]="registrationForm" (ngSubmit)="register()" class="registration-form">
+    <mat-form-field class="registration-input-container">
+      <mat-label>Your name</mat-label>
+      <input matInput formControlName="firstName">
+    </mat-form-field>
+    <mat-form-field class="registration-input-container">
+      <mat-label>Your last name</mat-label>
+      <input matInput  formControlName="secondName">
+    </mat-form-field>
+    <mat-form-field class="registration-input-container">
+      <mat-label>Write your email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="registration-input-container">
+      <mat-label>Write your password</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="registration-input-container">
+      <mat-label>Your department's name</mat-label>
+      <input matInput formControlName="departmentName">
+    </mat-form-field>
+    <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+  </form>
+  </div>
+</section>

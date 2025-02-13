@@ -3,7 +3,7 @@
   justify-content: space-between;
   background-color: #000000;
   color: #FFFFFF;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 }
