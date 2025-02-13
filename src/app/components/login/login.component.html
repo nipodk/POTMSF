@@ -2,16 +2,16 @@
 <app-header></app-header>
 <div class="login-container">
   <h1>Login</h1>
-<form class="login-form">
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
   <mat-form-field class="login-input-container">
     <mat-label>Write your email</mat-label>
-    <input matInput value="">
+    <input matInput formControlName="email">
   </mat-form-field>
   <mat-form-field class="login-input-container">
     <mat-label>Write your password</mat-label>
-    <input matInput value="" type="password">
+    <input matInput type="password" formControlName="password">
   </mat-form-field>
-  <button>Login</button>
+  <button [disabled]="loginForm.invalid">Login</button>
 </form>
 </div>
 </section>

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HeaderComponent } from '../header/header.component';
 import { AuthenticationServiceService } from '../../services/authentication/authentication-service.service';
 import { RegisterRequest } from '../../interfaces/authentication/RegisterRequest';
+import { TokenStorageService } from '../../services/storage/token-storage.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,12 +22,14 @@ import { RegisterRequest } from '../../interfaces/authentication/RegisterRequest
 })
 export class RegistrationComponent {
   registrationForm: FormGroup;
-  private token: string = "";
 
-  constructor(private fb: FormBuilder, private authenticationServiceService:AuthenticationServiceService) {
+  constructor(
+    private fb: FormBuilder,
+    private authenticationServiceService:AuthenticationServiceService,
+    private tokenStorage: TokenStorageService) {
     this.registrationForm = this.fb.group({
       firstName: ['', [Validators.required]],
-      secondName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       departmentName: ['', [Validators.required]],
@@ -45,13 +48,13 @@ export class RegistrationComponent {
       }
       this.authenticationServiceService.register(registrationRequest)
         .subscribe((response) => {
-          this.token = response.token;
+          this.tokenStorage.setItem("token", response.token);
         },
           (error) => {
             console.error('There is an error during registration. Try again:', error);
           });
     } else {
-      console.log('Form is invalid');
+      console.log("Some fields aren't correctly filled");
     }
   }
 
