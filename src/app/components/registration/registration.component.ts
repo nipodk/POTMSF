@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HeaderComponent } from '../header/header.component';
 import { AuthenticationServiceService } from '../../services/authentication/authentication-service.service';
 import { RegisterRequest } from '../../interfaces/authentication/RegisterRequest';
-import { TokenStorageService } from '../../services/storage/token-storage.service';
+import { LocalStorageService } from '../../services/storage/local-storage.service';
 
 @Component({
   selector: 'app-registration',
@@ -26,7 +26,7 @@ export class RegistrationComponent {
   constructor(
     private fb: FormBuilder,
     private authenticationServiceService:AuthenticationServiceService,
-    private tokenStorage: TokenStorageService) {
+    private tokenStorage: LocalStorageService) {
     this.registrationForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],

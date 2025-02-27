@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RegisterRequest } from '../../interfaces/authentication/RegisterRequest';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationResponse } from '../../interfaces/authentication/AuthenticationResponse';
 import { Observable } from 'rxjs';
 import { AuthenticationRequest } from '../../interfaces/authentication/AuthenticationRequest';
@@ -12,6 +12,10 @@ export class AuthenticationServiceService {
   private authEndpoint:string = 'http://localhost:8080/api/v1/auth';
 
   constructor(private http: HttpClient) { }
+
+  private getHeaders = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
 
   public register(registerRequest: RegisterRequest): Observable<AuthenticationResponse> {
     return this.http.post<AuthenticationResponse>(`${this.authEndpoint}/register`, registerRequest)

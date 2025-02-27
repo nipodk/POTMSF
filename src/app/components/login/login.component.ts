@@ -5,7 +5,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HeaderComponent } from '../header/header.component';
 import { AuthenticationServiceService } from '../../services/authentication/authentication-service.service';
 import { AuthenticationRequest } from '../../interfaces/authentication/AuthenticationRequest';
-import { TokenStorageService } from '../../services/storage/token-storage.service';
+import { LocalStorageService } from '../../services/storage/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -26,26 +27,28 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authenticationServiceService:AuthenticationServiceService,
-    private tokenStorage:TokenStorageService) {
+    private localStorageService:LocalStorageService,
+    private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  login(){
+  public login(){
     if (this.loginForm.valid) {
       const authenticationRequest: AuthenticationRequest = {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password
       }
-
       this.authenticationServiceService.login(authenticationRequest)
         .subscribe((response) => {
-            this.tokenStorage.setItem("token", response.token);
+            this.localStorageService.setItem("token", response.token);
+            this.localStorageService.setItem("email", authenticationRequest.email);
+            this.router.navigate(['/dashboard']);
           },
           (error) => {
-            console.error('There is an error during registration. Try again:', error);
+            console.error('There is an error duchring login. Try again:', error);
           });
     } else {
       console.log("Some fields aren't correctly filled");
