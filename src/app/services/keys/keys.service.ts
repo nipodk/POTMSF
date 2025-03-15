@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { KeyCreateRequest, KeyCreateResponse, KeyGetRequest } from '../../interfaces/keys/KeyServiceInterface';
+import {
+  KeyCreateRequest,
+  KeyCreateResponse,
+  KeyGetResponse,
+  KeyUpdateRequest, KeyUpdateResponse, KeyDeleteResponse, KeyDto
+} from '../../interfaces/keys/KeyServiceInterface';
 import { LocalStorageService } from '../storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KeysService {
-  private authEndpoint:string = 'http://localhost:8080/api/v1/key';
+  private authEndpoint:string = 'http://localhost:8080/api/v1/keys';
+  private keyAddedSource = new Subject<KeyDto>();
+  keyAdded$ = this.keyAddedSource.asObservable();
+
 
   constructor(
     private http: HttpClient,
@@ -32,9 +40,24 @@ export class KeysService {
     })
   }
 
-  public getUserKeys(userEmail: string): Observable<KeyGetRequest> {
-    return this.http.get<KeyGetRequest>(`${this.authEndpoint}?email=${userEmail}`, {
+  public getUserKeys(userEmail: string): Observable<KeyGetResponse> {
+    return this.http.get<KeyGetResponse>(`${this.authEndpoint}?email=${userEmail}`, {
       headers: this.getHeaders()
     })
+  }
+
+  public updateUserKey(keyUpdateRequest: KeyUpdateRequest): Observable<KeyUpdateResponse> {
+    return this.http.put<KeyUpdateResponse>(`${this.authEndpoint}`,keyUpdateRequest, {
+      headers: this.getHeaders()
+    })
+  }
+
+  public deleteUserKey(userEmail: string, keyName: string): Observable<KeyDeleteResponse>  {
+    return this.http.delete<KeyDeleteResponse>(`${this.authEndpoint}?userEmail=${userEmail}&keyName=${keyName}`, {
+  headers: this.getHeaders()
+})
+  }
+  public notifyKeyAddition(newKey: KeyDto) {
+    this.keyAddedSource.next(newKey);
   }
 }
