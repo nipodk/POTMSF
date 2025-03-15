@@ -1,0 +1,5 @@
+<app-header></app-header>
+<main>
+  <app-loading *ngIf="isDataLoading"></app-loading>
+  <app-data-table [numberOfKeys]="numberOfKeys" [tableStates]="tableStates"></app-data-table>
+</main>

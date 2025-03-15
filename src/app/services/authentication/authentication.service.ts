@@ -4,14 +4,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationResponse } from '../../interfaces/authentication/AuthenticationResponse';
 import { Observable } from 'rxjs';
 import { AuthenticationRequest } from '../../interfaces/authentication/AuthenticationRequest';
+import { LocalStorageService } from '../storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationServiceService {
+export class AuthenticationService {
   private authEndpoint:string = 'http://localhost:8080/api/v1/auth';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+    ) { }
 
   private getHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
@@ -25,4 +29,9 @@ export class AuthenticationServiceService {
     return this.http.post<AuthenticationResponse>(`${this.authEndpoint}/login`, loginRequest)
   }
 
+  public logOut(): void {
+    this.localStorageService.setItem("isLogged", false);
+    this.localStorageService.removeItem("token");
+    this.localStorageService.removeItem("email");
+  }
 }
