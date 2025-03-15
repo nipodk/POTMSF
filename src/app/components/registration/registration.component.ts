@@ -3,7 +3,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
-import { AuthenticationServiceService } from '../../services/authentication/authentication-service.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { RegisterRequest } from '../../interfaces/authentication/RegisterRequest';
 import { LocalStorageService } from '../../services/storage/local-storage.service';
 
@@ -25,7 +25,7 @@ export class RegistrationComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authenticationServiceService:AuthenticationServiceService,
+    private authenticationServiceService:AuthenticationService,
     private tokenStorage: LocalStorageService) {
     this.registrationForm = this.fb.group({
       firstName: ['', [Validators.required]],
