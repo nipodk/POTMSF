@@ -11,4 +11,13 @@ export class LocalStorageService {
   public getItem(key: string): string {
     return localStorage.getItem(key) ?? "";
   }
+
+  public removeItem(key: string): void {
+    localStorage.removeItem(key);
+  }
+
+  public isLogged(key: string): boolean {
+    const userLogged: string = localStorage.getItem(key) ?? "";
+    return userLogged === "true"
+  }
 }

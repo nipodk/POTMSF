@@ -1,11 +1,16 @@
 <mat-toolbar class="header-container">
   <div class="logo-container">
-    <a routerLink="">
-      <img id="logo" src="power_logosvg.svg" alt="">
+    <a routerLink="/">
+      <img id="logo" src="assets/images/power_logosvg.svg" alt="">
     </a>
   </div>
-  <div class="redirection">
+  <div class="redirection" *ngIf="!userLoggedIn">
     <a routerLink="/login">Login</a>
     <a routerLink="/register">Register</a>
+  </div>
+  <div class="redirection" *ngIf="userLoggedIn">
+    <a routerLink="/login" (click)="logOut()">logout</a>
+    <a routerLink="/ordersMonitoring">order monitoring</a>
+    <a routerLink="/keys">keys management</a>
   </div>
 </mat-toolbar>

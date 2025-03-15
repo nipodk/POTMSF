@@ -3,7 +3,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
-import { AuthenticationServiceService } from '../../services/authentication/authentication-service.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { AuthenticationRequest } from '../../interfaces/authentication/AuthenticationRequest';
 import { LocalStorageService } from '../../services/storage/local-storage.service';
 import { Router } from '@angular/router';
@@ -26,8 +26,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authenticationServiceService:AuthenticationServiceService,
-    private localStorageService:LocalStorageService,
+    private authenticationServiceService: AuthenticationService,
+    private localStorageService: LocalStorageService,
     private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,7 +45,8 @@ export class LoginComponent {
         .subscribe((response) => {
             this.localStorageService.setItem("token", response.token);
             this.localStorageService.setItem("email", authenticationRequest.email);
-            this.router.navigate(['/dashboard']);
+            this.localStorageService.setItem("isLogged", true);
+            this.router.navigate(['/ordersMonitoring']);
           },
           (error) => {
             console.error('There is an error duchring login. Try again:', error);
