@@ -1,0 +1,18 @@
+<section class="key-section">
+  <div class="key-container" *ngIf="openedKeyForm">
+    <button class="close-btn" (click)="closeKeyForm()">❌</button>
+    <h1>Key add</h1>
+    <form class="key-form" [formGroup]="keyForm" (ngSubmit)="addKeyData()">
+      <mat-form-field class="key-input-container">
+        <mat-label>Write your api key name</mat-label>
+        <input matInput formControlName="apiKeyName">
+      </mat-form-field>
+      <mat-form-field class="key-input-container">
+        <mat-label>Write your api key</mat-label>
+        <input matInput formControlName="apiKey">
+      </mat-form-field>
+      <button type="submit" [disabled]="keyForm.invalid">Add key</button>
+    </form>
+  </div>
+  <button (click)="closeKeyForm()" *ngIf="!openedKeyForm">Add key</button>
+</section>

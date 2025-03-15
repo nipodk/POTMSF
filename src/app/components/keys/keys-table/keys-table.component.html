@@ -1,0 +1,33 @@
+<app-loading *ngIf="isDataLoading"></app-loading>
+<section class="keys-container">
+  <main>
+    <table *ngIf="apiKeys.length > 0" mat-table class="mat-elevation-z8" [dataSource]="apiKeys[0]">
+      <ng-container matColumnDef="keyName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element">
+          <input name="keyName" [readOnly]="updateKeysStates[element.keyName].keyName" type="text" [value]="element.keyName" class="updatable-inputs" (click)="activateUpdateAction($event, element.keyName)" (change)="getUpdatedValue($event, element.keyName)">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="apiKey">
+        <th mat-header-cell *matHeaderCellDef> Api Key</th>
+        <td mat-cell *matCellDef="let element">
+          <input name="apiKey" type="text" [readOnly]="updateKeysStates[element.keyName].apiKey" [value]=element.apiKey class="updatable-inputs" (click)="activateUpdateAction($event, element.keyName)" (change)="getUpdatedValue($event, element.keyName)">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef>update</th>
+        <td mat-cell *matCellDef="let element"> <button (click)="updateKeyData(element.keyName)">Update</button> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>delete</th>
+        <td mat-cell *matCellDef="let element"><button (click)="deleteKey(element.keyName)">Delete</button> </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </main>
+</section>
